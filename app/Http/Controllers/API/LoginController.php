@@ -5,7 +5,6 @@ namespace App\Http\Controllers\API;
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
-use function Laravel\Prompts\error;
 
 class LoginController extends Controller
 {
@@ -14,7 +13,11 @@ class LoginController extends Controller
      */
     public function __invoke(Request $request)
     {
-        $credentials = $request->all(['email', 'password']);
+
+        $credentials = $request->validate([
+            'email' => ['required', 'email'],
+            'password' => ['required'],
+        ]);
         $auth = Auth::attempt($credentials);
 
         if (!$auth) {
@@ -22,6 +25,7 @@ class LoginController extends Controller
         }
 
         $token = Auth::user()->createToken('api-token');
+        
         return response()->json([
             'status' => 'ok',
             'token' => $token->plainTextToken,

@@ -39,4 +39,11 @@ class LoginTest extends TestCase
 
         $response->assertStatus(401);
     }
+
+    public function test_login_endpoint_missing_parameters(): void
+    {
+        $response = $this->post('/api/login');
+
+        $response->assertStatus(302);
+    }
 }
