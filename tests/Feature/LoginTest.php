@@ -13,10 +13,7 @@ class LoginTest extends TestCase
 
     public function test_login_endpoint_success(): void
     {
-        $userCredentials = [
-            'email' => fake()->safeEmail,
-            'password' => fake()->password,
-        ];
+        $userCredentials = $this->getUserCredentials();
 
         User::factory()->create($userCredentials);
 
@@ -30,10 +27,7 @@ class LoginTest extends TestCase
 
     public function test_login_endpoint_user_not_found(): void
     {
-        $userCredentials = [
-            'email' => fake()->safeEmail,
-            'password' => fake()->password,
-        ];
+        $userCredentials = $this->getUserCredentials();
 
         $response = $this->post('/api/login', $userCredentials);
 
@@ -45,5 +39,13 @@ class LoginTest extends TestCase
         $response = $this->post('/api/login');
 
         $response->assertStatus(302);
+    }
+
+    public function getUserCredentials(): array
+    {
+        return [
+            'email' => fake()->safeEmail,
+            'password' => fake()->password,
+        ];
     }
 }
