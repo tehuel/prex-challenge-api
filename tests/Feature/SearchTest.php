@@ -19,7 +19,9 @@ class SearchTest extends TestCase
         ];
         $this->mock(GiphySearchService::class, fn(MockInterface $mock) =>
             $mock->shouldReceive('search')
-                ->withArgs([$searchQuery])
+                ->withArgs([
+                    'success',
+                ])
                 ->andReturn([])
         );
 

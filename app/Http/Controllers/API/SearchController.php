@@ -13,13 +13,13 @@ class SearchController extends Controller
      */
     public function __invoke(Request $request, GiphySearchService $service)
     {
-        $validatedData = $request->validate([
+        ['query' => $query] = $request->validate([
             'query' => ['required'],
             'limit' => ['nullable'],
             'offset' => ['nullable'],
         ]);
 
-        $result = $service->search($validatedData);
+        $result = $service->search($query);
 
         return response()->json($result);
     }
