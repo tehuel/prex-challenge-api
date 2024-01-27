@@ -9,6 +9,8 @@ use Mockery\MockInterface;
 
 class SearchTest extends ApiTestCase
 {
+    const URI = '/api/search';
+
     public function test_search_results(): void
     {
         $searchQuery = [
@@ -22,10 +24,8 @@ class SearchTest extends ApiTestCase
                 ->andReturn([])
         );
 
-        $uri = '/api/search?' . Arr::query($searchQuery);
-        $headers = [
-            'Authorization' => $this->getUserToken(),
-        ];
+        $uri = self::URI . '?' . Arr::query($searchQuery);
+        $headers = $this->getAuthenticatedHeaders();
 
         $response = $this->json('GET', $uri, [], $headers);
         $response->assertStatus(200);
@@ -33,10 +33,8 @@ class SearchTest extends ApiTestCase
 
     public function test_search_parameter_validation(): void
     {
-        $uri = url('/api/search', []);
-        $headers = [
-            'Authorization' => $this->getUserToken(),
-        ];
+        $uri = self::URI;
+        $headers = $this->getAuthenticatedHeaders();
         $response = $this->json('GET', $uri, [], $headers);
 
         $response->assertStatus(422);
@@ -44,7 +42,8 @@ class SearchTest extends ApiTestCase
 
     public function test_search_not_authenticated(): void
     {
-        $response = $this->json('GET', '/api/search');
+        $uri = self::URI;
+        $response = $this->json('GET', $uri);
         $response->assertStatus(401);
     }
 }

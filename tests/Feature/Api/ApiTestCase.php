@@ -7,6 +7,13 @@ use Tests\TestCase;
 
 abstract class ApiTestCase extends TestCase
 {
+    public function getAuthenticatedHeaders(): array
+    {
+        return [
+            'Authorization' => $this->getUserToken(),
+        ];
+    }
+
     public function getUserToken(): string
     {
         $userCredentials = [
