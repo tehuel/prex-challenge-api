@@ -1,16 +1,13 @@
 <?php
 
-namespace Tests\Feature;
+namespace Tests\Feature\Api;
 
 use App\Models\User;
 use App\Services\Giphy\GiphySearchService;
-use Illuminate\Foundation\Testing\RefreshDatabase;
-use Illuminate\Foundation\Testing\WithFaker;
 use Illuminate\Support\Arr;
 use Mockery\MockInterface;
-use Tests\TestCase;
 
-class SearchTest extends TestCase
+class SearchTest extends ApiTestCase
 {
     public function test_search_results(): void
     {
@@ -49,17 +46,5 @@ class SearchTest extends TestCase
     {
         $response = $this->json('GET', '/api/search');
         $response->assertStatus(401);
-    }
-
-    public function getUserToken(): string
-    {
-        $userCredentials = [
-            'email' => fake()->safeEmail,
-            'password' => fake()->password,
-        ];
-        User::factory()->create($userCredentials);
-        $response = $this->post('/api/login', $userCredentials);
-
-        return $response->json('token');
     }
 }
