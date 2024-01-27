@@ -2,11 +2,11 @@
 
 namespace Tests\Unit;
 
-use App\Services\Giphy\GiphySearchService;
+use App\Services\Giphy\GiphyService;
 use Illuminate\Support\Facades\Http;
 use Tests\TestCase;
 
-class GiphySearchServiceTest extends TestCase
+class GiphyServiceTest extends TestCase
 {
     public function test_search_request(): void
     {
@@ -15,7 +15,7 @@ class GiphySearchServiceTest extends TestCase
             'api.giphy.com/*' => Http::response(['data' => $mockData]),
         ]);
 
-        $service = new GiphySearchService();
+        $service = new GiphyService();
         $response = $service->search('success');
 
         $this->assertEquals($mockData, $response);

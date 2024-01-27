@@ -3,7 +3,7 @@
 namespace Tests\Feature\Api;
 
 use App\Models\User;
-use App\Services\Giphy\GiphySearchService;
+use App\Services\Giphy\GiphyService;
 use Illuminate\Support\Arr;
 use Mockery\MockInterface;
 
@@ -16,12 +16,13 @@ class SearchTest extends ApiTestCase
         $searchQuery = [
             'query' => 'success',
         ];
-        $this->mock(GiphySearchService::class, fn(MockInterface $mock) =>
+        $this->mock(GiphyService::class, fn(MockInterface $mock) =>
             $mock->shouldReceive('search')
                 ->withArgs([
                     'success',
                 ])
                 ->andReturn([])
+                ->once()
         );
 
         $uri = self::URI . '?' . Arr::query($searchQuery);

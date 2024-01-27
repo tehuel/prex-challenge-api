@@ -2,7 +2,7 @@
 
 namespace Tests\Feature\Api;
 
-use App\Services\Giphy\GiphySearchService;
+use App\Services\Giphy\GiphyService;
 use Mockery\MockInterface;
 use Tests\TestCase;
 
@@ -12,7 +12,7 @@ class ShowTest extends ApiTestCase
 
     public function test_get_gif_result()
     {
-        $this->mock(GiphySearchService::class, fn(MockInterface $mock) =>
+        $this->mock(GiphyService::class, fn(MockInterface $mock) =>
             $mock->shouldReceive('get')
                 ->withArgs([
                     'abc123',

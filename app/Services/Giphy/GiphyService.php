@@ -4,7 +4,7 @@ namespace App\Services\Giphy;
 
 use Illuminate\Support\Facades\Http;
 
-class GiphySearchService
+class GiphyService
 {
     public function search(string $query, int $limit = 10, int $offset = 0): array
     {
