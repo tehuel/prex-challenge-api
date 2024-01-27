@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\API\GetController;
 use App\Http\Controllers\API\LoginController;
 use App\Http\Controllers\API\SearchController;
 use Illuminate\Http\Request;
@@ -22,3 +23,4 @@ Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
 
 Route::post('/login', LoginController::class);
 Route::middleware('auth:sanctum')->get('/search', SearchController::class);
+Route::middleware('auth:sanctum')->get('/gif/{gif}', GetController::class);

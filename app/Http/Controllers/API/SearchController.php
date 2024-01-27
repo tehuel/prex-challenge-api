@@ -3,7 +3,7 @@
 namespace App\Http\Controllers\API;
 
 use App\Http\Controllers\Controller;
-use App\Services\Giphy\GiphySearchService;
+use App\Services\Giphy\GiphyService;
 use Illuminate\Http\Request;
 
 class SearchController extends Controller
@@ -11,7 +11,7 @@ class SearchController extends Controller
     /**
      * Handle the incoming request.
      */
-    public function __invoke(Request $request, GiphySearchService $service)
+    public function __invoke(Request $request, GiphyService $service)
     {
         ['query' => $query] = $request->validate([
             'query' => ['required'],
