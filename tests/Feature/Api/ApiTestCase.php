@@ -23,7 +23,7 @@ abstract class ApiTestCase extends TestCase
         User::factory()->create($userCredentials);
         $response = $this->post('/api/login', $userCredentials);
 
-        return $response->json('token');
+        return $response->json('data.token');
     }
 
     public function getTokenForUser(User $user): string
@@ -33,7 +33,7 @@ abstract class ApiTestCase extends TestCase
             'password' => 'password',
         ]);
 
-        return $response->json('token');
+        return $response->json('data.token');
     }
 
     public function getUserCredentials(): array

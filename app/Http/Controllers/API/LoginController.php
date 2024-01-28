@@ -25,7 +25,10 @@ class LoginController extends Controller
         }
 
         $token = Auth::user()->createToken('api-token', ['*'], now()->addMinutes(30));
+        $responseData = [
+            'token' => $token->plainTextToken,
+        ];
 
-        return $this->formattedResponse($token->plainTextToken);
+        return $this->formattedResponse($responseData);
     }
 }

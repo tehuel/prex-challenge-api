@@ -17,7 +17,7 @@ class LoginTest extends ApiTestCase
 
         $response->assertStatus(200)
             ->assertJson(fn(AssertableJson $json) =>
-                $json->has('token')->etc()
+                $json->has('data.token')->etc()
             );
     }
 
@@ -30,7 +30,7 @@ class LoginTest extends ApiTestCase
         $response1 = $this->post('/api/login', $userCredentials);
         $response1->assertStatus(200)
             ->assertJson(fn(AssertableJson $json) =>
-            $json->has('token')->etc()
+                $json->has('data.token')->etc()
             );
 
         $token = $user->tokens()->first();
