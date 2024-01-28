@@ -9,10 +9,9 @@ use Illuminate\Support\Facades\Validator;
 
 class GetController extends Controller
 {
-    /**
-     * Handle the incoming request.
-     */
-    public function __invoke(Request $request, string $gif, GiphyService $service)
+    public function __construct(private readonly GiphyService $giphyService) {}
+
+    public function __invoke(Request $request, string $gif)
     {
         $validator =Validator::make([
             'gif' => $gif,
@@ -21,6 +20,11 @@ class GetController extends Controller
         ]);
         $validator->validate();
 
-        return $service->get($gif);
+        $gifData = $this->giphyService->get($gif);
+
+        return response()->json([
+            'status' => 'ok',
+            'data' => $gifData,
+        ]);
     }
 }

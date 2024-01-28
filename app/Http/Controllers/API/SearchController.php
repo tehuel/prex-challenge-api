@@ -8,10 +8,9 @@ use Illuminate\Http\Request;
 
 class SearchController extends Controller
 {
-    /**
-     * Handle the incoming request.
-     */
-    public function __invoke(Request $request, GiphyService $service)
+    public function __construct(private readonly GiphyService $giphyService) {}
+
+    public function __invoke(Request $request): \Illuminate\Http\JsonResponse
     {
         ['query' => $query] = $request->validate([
             'query' => ['required'],
@@ -19,8 +18,11 @@ class SearchController extends Controller
             'offset' => ['nullable'],
         ]);
 
-        $result = $service->search($query);
+        $searchData = $this->giphyService->search($query);
 
-        return response()->json($result);
+        return response()->json([
+            'status' => 'ok',
+            'data' => $searchData,
+        ]);
     }
 }
