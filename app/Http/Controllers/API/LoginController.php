@@ -24,8 +24,8 @@ class LoginController extends Controller
             return response()->json([], 401);
         }
 
-        $token = Auth::user()->createToken('api-token');
-        
+        $token = Auth::user()->createToken('api-token', ['*'], now()->addMinutes(30));
+
         return response()->json([
             'status' => 'ok',
             'token' => $token->plainTextToken,

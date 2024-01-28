@@ -21,6 +21,25 @@ class LoginTest extends ApiTestCase
             );
     }
 
+    public function test_login_endpoint_expired_token(): void
+    {
+        $userCredentials = $this->getUserCredentials();
+
+        $user = User::factory()->create($userCredentials);
+
+        $response1 = $this->post('/api/login', $userCredentials);
+        $response1->assertStatus(200)
+            ->assertJson(fn(AssertableJson $json) =>
+            $json->has('token')->etc()
+            );
+
+        $token = $user->tokens()->first();
+        $this->assertFalse($token->expires_at->isPast());
+
+        $this->travel(30)->minutes();
+        $this->assertTrue($token->expires_at->isPast());
+    }
+
     public function test_login_endpoint_user_not_found(): void
     {
         $userCredentials = $this->getUserCredentials();
