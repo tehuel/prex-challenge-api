@@ -23,7 +23,12 @@ Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
     return $request->user();
 });
 
-Route::middleware([ApiLogger::class])->post('/login', LoginController::class);
-Route::middleware(['auth:sanctum', ApiLogger::class])->get('/search', SearchController::class);
-Route::middleware(['auth:sanctum', ApiLogger::class])->get('/favorite', FavoriteController::class);
-Route::middleware(['auth:sanctum', ApiLogger::class])->get('/gif/{gif}', GetController::class);
+Route::middleware([ApiLogger::class])->group(function () {
+    Route::post('/login', LoginController::class);
+
+    Route::middleware(['auth:sanctum'])->group(function () {
+        Route::get('/search', SearchController::class);
+        Route::get('/favorite', FavoriteController::class);
+        Route::get('/gif/{gif}', GetController::class);
+    });
+});
