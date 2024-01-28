@@ -3,12 +3,15 @@
 namespace App\Http\Controllers\API;
 
 use App\Http\Controllers\Controller;
+use App\Http\Traits\HasFormattedJsonResponse;
 use App\Services\Giphy\GiphyService;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Validator;
 
 class GetController extends Controller
 {
+    use HasFormattedJsonResponse;
+
     public function __construct(private readonly GiphyService $giphyService) {}
 
     public function __invoke(Request $request, string $gif)
@@ -22,9 +25,6 @@ class GetController extends Controller
 
         $gifData = $this->giphyService->get($gif);
 
-        return response()->json([
-            'status' => 'ok',
-            'data' => $gifData,
-        ]);
+        return $this->formattedResponse($gifData);
     }
 }

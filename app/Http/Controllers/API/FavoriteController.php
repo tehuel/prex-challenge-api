@@ -3,12 +3,15 @@
 namespace App\Http\Controllers\API;
 
 use App\Http\Controllers\Controller;
+use App\Http\Traits\HasFormattedJsonResponse;
 use App\Models\User;
 use App\Services\Giphy\GiphyService;
 use Illuminate\Http\Request;
 
 class FavoriteController extends Controller
 {
+    use HasFormattedJsonResponse;
+
     public function __construct(private readonly GiphyService $giphyService) {}
 
     public function __invoke(Request $request)
@@ -28,9 +31,6 @@ class FavoriteController extends Controller
             'data' => json_encode($gifData),
         ]);
 
-        return response()->json([
-            'status' => 'ok',
-            'data' => $favoriteData,
-        ]);
+        return $this->formattedResponse($favoriteData);
     }
 }

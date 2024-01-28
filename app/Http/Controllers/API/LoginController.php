@@ -3,14 +3,14 @@
 namespace App\Http\Controllers\API;
 
 use App\Http\Controllers\Controller;
+use App\Http\Traits\HasFormattedJsonResponse;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 
 class LoginController extends Controller
 {
-    /**
-     * Handle the incoming request.
-     */
+    use HasFormattedJsonResponse;
+
     public function __invoke(Request $request)
     {
 
@@ -26,9 +26,6 @@ class LoginController extends Controller
 
         $token = Auth::user()->createToken('api-token', ['*'], now()->addMinutes(30));
 
-        return response()->json([
-            'status' => 'ok',
-            'token' => $token->plainTextToken,
-        ]);
+        return $this->formattedResponse($token->plainTextToken);
     }
 }
