@@ -18,7 +18,7 @@ class ApiLogger
         $response = $next($request);
 
         logger()->debug('log request', [
-            'user' => $request->user()->id,
+            'user' => $request->user()?->id,
             'resource' => $request->getRequestUri(),
             'ip' => $request->ip(),
             'body' => $request->all(),
