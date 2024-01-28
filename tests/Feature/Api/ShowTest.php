@@ -4,7 +4,6 @@ namespace Tests\Feature\Api;
 
 use App\Services\Giphy\GiphyService;
 use Mockery\MockInterface;
-use Tests\TestCase;
 
 class ShowTest extends ApiTestCase
 {

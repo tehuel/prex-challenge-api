@@ -3,14 +3,10 @@
 namespace Tests\Feature\Api;
 
 use App\Models\User;
-use Illuminate\Foundation\Testing\RefreshDatabase;
 use Illuminate\Testing\Fluent\AssertableJson;
-use Tests\TestCase;
 
-class LoginTest extends TestCase
+class LoginTest extends ApiTestCase
 {
-    use RefreshDatabase;
-
     public function test_login_endpoint_success(): void
     {
         $userCredentials = $this->getUserCredentials();
@@ -39,13 +35,5 @@ class LoginTest extends TestCase
         $response = $this->post('/api/login');
 
         $response->assertStatus(302);
-    }
-
-    public function getUserCredentials(): array
-    {
-        return [
-            'email' => fake()->safeEmail,
-            'password' => fake()->password,
-        ];
     }
 }

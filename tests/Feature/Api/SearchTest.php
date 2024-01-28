@@ -2,7 +2,6 @@
 
 namespace Tests\Feature\Api;
 
-use App\Models\User;
 use App\Services\Giphy\GiphyService;
 use Illuminate\Support\Arr;
 use Mockery\MockInterface;
