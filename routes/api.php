@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\API\FavoriteController;
 use App\Http\Controllers\API\GetController;
 use App\Http\Controllers\API\LoginController;
 use App\Http\Controllers\API\SearchController;
@@ -23,4 +24,5 @@ Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
 
 Route::post('/login', LoginController::class);
 Route::middleware('auth:sanctum')->get('/search', SearchController::class);
+Route::middleware('auth:sanctum')->get('/favorite', FavoriteController::class);
 Route::middleware('auth:sanctum')->get('/gif/{gif}', GetController::class);
