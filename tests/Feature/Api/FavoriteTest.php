@@ -13,20 +13,18 @@ class FavoriteTest extends ApiTestCase
 
     public function test_favorite_use_gif_service(): void
     {
-        $user1 = User::factory()->create();
-        $user2 = User::factory()->create();
-
+        $user = User::factory()->create();
         $alias = 'gif alias';
         $gifId = 'abc123';
 
         $searchQuery = [
             'gif_id' => $gifId,
-            'user_id' => $user2->id,
+            'user_id' => $user->id,
             'alias' => $alias,
         ];
         $uri = self::URI . '?' . Arr::query($searchQuery);
 
-        $headers = $this->getAuthenticatedHeaders($user1);
+        $headers = $this->getAuthenticatedHeaders($user);
 
         $this->mock(GiphyService::class, fn(MockInterface $mock) =>
             $mock
@@ -38,7 +36,7 @@ class FavoriteTest extends ApiTestCase
         $response = $this->json('GET', $uri, [], $headers);
 
         $response->assertStatus(200);
-        $this->assertEquals(1, $user2->favorites()->count());
+        $this->assertEquals(1, $user->favorites()->count());
     }
 
     public function test_favorite_add_to_favorites(): void
