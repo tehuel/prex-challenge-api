@@ -15,6 +15,7 @@ class SearchTest extends ApiTestCase
         $searchQuery = [
             'query' => 'success',
         ];
+
         $this->mock(GiphyService::class, fn(MockInterface $mock) =>
             $mock->shouldReceive('search')
                 ->withArgs([
