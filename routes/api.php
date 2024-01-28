@@ -6,6 +6,7 @@ use App\Http\Controllers\API\LoginController;
 use App\Http\Controllers\API\SearchController;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
+use App\Http\Middleware\ApiLogger;
 
 /*
 |--------------------------------------------------------------------------
@@ -22,7 +23,7 @@ Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
     return $request->user();
 });
 
-Route::post('/login', LoginController::class);
-Route::middleware('auth:sanctum')->get('/search', SearchController::class);
-Route::middleware('auth:sanctum')->get('/favorite', FavoriteController::class);
-Route::middleware('auth:sanctum')->get('/gif/{gif}', GetController::class);
+Route::middleware([ApiLogger::class])->post('/login', LoginController::class);
+Route::middleware(['auth:sanctum', ApiLogger::class])->get('/search', SearchController::class);
+Route::middleware(['auth:sanctum', ApiLogger::class])->get('/favorite', FavoriteController::class);
+Route::middleware(['auth:sanctum', ApiLogger::class])->get('/gif/{gif}', GetController::class);
