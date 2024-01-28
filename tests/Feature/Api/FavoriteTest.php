@@ -35,8 +35,14 @@ class FavoriteTest extends ApiTestCase
         $user = User::factory()->create();
         $searchQuery = $this->getFavoriteQueryParams($user);
         $uri = self::URI . '?' . Arr::query($searchQuery);
-
         $headers = $this->getAuthenticatedHeaders($user);
+        $this->mock(GiphyService::class, fn(MockInterface $mock) =>
+        $mock
+            ->shouldReceive('get')
+            ->withArgs([$searchQuery['gif_id']])
+            ->once()
+        );
+
         $response = $this->json('GET', $uri, [], $headers);
 
         $response->assertStatus(200);
