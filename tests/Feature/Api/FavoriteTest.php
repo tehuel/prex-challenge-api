@@ -15,8 +15,6 @@ class FavoriteTest extends ApiTestCase
     {
         $user = User::factory()->create();
         $searchQuery = $this->getFavoriteQueryParams($user);
-        $uri = self::URI . '?' . Arr::query($searchQuery);
-        $headers = $this->getAuthenticatedHeaders($user);
         $this->mock(GiphyService::class, fn(MockInterface $mock) =>
             $mock
                 ->shouldReceive('get')
@@ -24,7 +22,11 @@ class FavoriteTest extends ApiTestCase
                 ->once()
         );
 
-        $response = $this->json('GET', $uri, [], $headers);
+        $response = $this->json(
+            method: 'GET',
+            uri: $this->getUriWithParams($searchQuery),
+            headers: $this->getAuthenticatedHeaders($user),
+        );
 
         $response->assertStatus(200);
         $this->assertEquals(1, $user->favorites()->count());
@@ -34,8 +36,6 @@ class FavoriteTest extends ApiTestCase
     {
         $user = User::factory()->create();
         $searchQuery = $this->getFavoriteQueryParams($user);
-        $uri = self::URI . '?' . Arr::query($searchQuery);
-        $headers = $this->getAuthenticatedHeaders($user);
         $this->mock(GiphyService::class, fn(MockInterface $mock) =>
         $mock
             ->shouldReceive('get')
@@ -43,7 +43,11 @@ class FavoriteTest extends ApiTestCase
             ->once()
         );
 
-        $response = $this->json('GET', $uri, [], $headers);
+        $response = $this->json(
+            method: 'GET',
+            uri: $this->getUriWithParams($searchQuery),
+            headers: $this->getAuthenticatedHeaders($user),
+        );
 
         $response->assertStatus(200);
         $this->assertEquals(1, $user->favorites()->count());
@@ -51,23 +55,27 @@ class FavoriteTest extends ApiTestCase
 
     public function test_favorite_parameter_validation(): void
     {
-        $uri = self::URI;
-        $headers = $this->getAuthenticatedHeaders();
-        $response = $this->json('GET', $uri, [], $headers);
+        $response = $this->json(
+            method: 'GET',
+            uri: $this->getUriWithParams(),
+            headers: $this->getAuthenticatedHeaders(),
+        );
 
         $response->assertStatus(422);
     }
 
     public function test_favorite_not_authenticated(): void
     {
-        $uri = self::URI;
-        $response = $this->json('GET', $uri);
+        $response = $this->json(
+            method: 'GET',
+            uri: $this->getUriWithParams(),
+        );
+
         $response->assertStatus(401);
     }
 
     public function getFavoriteQueryParams(User $user): array
     {
-
         return [
             'user_id' => $user->id,
             'gif_id' => fake()->regexify('[A-Za-z0-9]{8}'),
