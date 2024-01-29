@@ -10,7 +10,11 @@ class GiphyService
     /**
      * @throws RequestException
      */
-    public function search(string $query, int $limit = 10, int $offset = 0): array
+    public function search(
+        string $query,
+        int $limit = 10,
+        int $offset = 0
+    ): array
     {
         $response = Http::get('api.giphy.com/v1/gifs/search', [
             'api_key' => config('giphy.key'),

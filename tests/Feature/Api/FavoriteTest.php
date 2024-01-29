@@ -14,17 +14,19 @@ class FavoriteTest extends ApiTestCase
     public function test_favorite_use_gif_service(): void
     {
         $user = User::factory()->create();
-        $searchQuery = $this->getFavoriteQueryParams($user);
-        $uri = self::URI . '?' . Arr::query($searchQuery);
-        $headers = $this->getAuthenticatedHeaders($user);
+        $searchParams = $this->getFavoriteQueryParams($user);
         $this->mock(GiphyService::class, fn(MockInterface $mock) =>
             $mock
                 ->shouldReceive('get')
-                ->withArgs([$searchQuery['gif_id']])
+                ->withArgs([$searchParams['gif_id']])
                 ->once()
         );
 
-        $response = $this->json('GET', $uri, [], $headers);
+        $response = $this->json(
+            method: 'GET',
+            uri: $this->getUri($searchParams),
+            headers: $this->getAuthenticatedHeaders($user),
+        );
 
         $response->assertStatus(200);
         $this->assertEquals(1, $user->favorites()->count());
@@ -33,17 +35,19 @@ class FavoriteTest extends ApiTestCase
     public function test_favorite_add_to_favorites(): void
     {
         $user = User::factory()->create();
-        $searchQuery = $this->getFavoriteQueryParams($user);
-        $uri = self::URI . '?' . Arr::query($searchQuery);
-        $headers = $this->getAuthenticatedHeaders($user);
+        $searchParams = $this->getFavoriteQueryParams($user);
         $this->mock(GiphyService::class, fn(MockInterface $mock) =>
         $mock
             ->shouldReceive('get')
-            ->withArgs([$searchQuery['gif_id']])
+            ->withArgs([$searchParams['gif_id']])
             ->once()
         );
 
-        $response = $this->json('GET', $uri, [], $headers);
+        $response = $this->json(
+            method: 'GET',
+            uri: $this->getUri($searchParams),
+            headers: $this->getAuthenticatedHeaders($user),
+        );
 
         $response->assertStatus(200);
         $this->assertEquals(1, $user->favorites()->count());
@@ -51,23 +55,27 @@ class FavoriteTest extends ApiTestCase
 
     public function test_favorite_parameter_validation(): void
     {
-        $uri = self::URI;
-        $headers = $this->getAuthenticatedHeaders();
-        $response = $this->json('GET', $uri, [], $headers);
+        $response = $this->json(
+            method: 'GET',
+            uri: $this->getUri(),
+            headers: $this->getAuthenticatedHeaders(),
+        );
 
         $response->assertStatus(422);
     }
 
     public function test_favorite_not_authenticated(): void
     {
-        $uri = self::URI;
-        $response = $this->json('GET', $uri);
+        $response = $this->json(
+            method: 'GET',
+            uri: $this->getUri(),
+        );
+
         $response->assertStatus(401);
     }
 
     public function getFavoriteQueryParams(User $user): array
     {
-
         return [
             'user_id' => $user->id,
             'gif_id' => fake()->regexify('[A-Za-z0-9]{8}'),
