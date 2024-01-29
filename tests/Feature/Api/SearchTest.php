@@ -32,6 +32,32 @@ class SearchTest extends ApiTestCase
         $response->assertStatus(200);
     }
 
+    public function test_search_use_limit_offset_params(): void
+    {
+        $searchQuery = [
+            'query' => 'success',
+            'limit' => 5,
+            'offset' => 15,
+        ];
+
+        $this->mock(GiphyService::class, fn(MockInterface $mock) =>
+        $mock->shouldReceive('search')
+            ->withArgs([
+                'success',
+                5,
+                15.
+            ])
+            ->andReturn([])
+            ->once()
+        );
+
+        $uri = self::URI . '?' . Arr::query($searchQuery);
+        $headers = $this->getAuthenticatedHeaders();
+
+        $response = $this->json('GET', $uri, [], $headers);
+        $response->assertStatus(200);
+    }
+
     public function test_search_parameter_validation(): void
     {
         $uri = self::URI;
