@@ -25,11 +25,11 @@ class SearchTest extends ApiTestCase
                 ->once()
         );
 
+
         $response = $this->json(
-            'GET',
-            $this->getUriWithParams($searchQuery),
-            [],
-            $this->getAuthenticatedHeaders(),
+            method: 'GET',
+            uri: $this->getUriWithParams($searchQuery),
+            headers: $this->getAuthenticatedHeaders(),
         );
 
         $response->assertStatus(200);
@@ -43,10 +43,9 @@ class SearchTest extends ApiTestCase
         ];
 
         $response = $this->json(
-            'GET',
-            $this->getUriWithParams($searchQuery),
-            [],
-            $this->getAuthenticatedHeaders(),
+            method: 'GET',
+            uri: $this->getUriWithParams($searchQuery),
+            headers: $this->getAuthenticatedHeaders(),
         );
 
         $response->assertStatus(422);
@@ -72,10 +71,9 @@ class SearchTest extends ApiTestCase
         );
 
         $response = $this->json(
-            'GET',
-            $this->getUriWithParams($searchQuery),
-            [],
-            $this->getAuthenticatedHeaders(),
+            method: 'GET',
+            uri: $this->getUriWithParams($searchQuery),
+            headers: $this->getAuthenticatedHeaders(),
         );
 
         $response->assertStatus(200);
@@ -84,10 +82,9 @@ class SearchTest extends ApiTestCase
     public function test_search_required_parameter_validation(): void
     {
         $response = $this->json(
-            'GET',
-            $this->getUriWithParams(),
-            [],
-            $this->getAuthenticatedHeaders(),
+            method: 'GET',
+            uri: $this->getUriWithParams(),
+            headers: $this->getAuthenticatedHeaders(),
         );
 
         $response->assertStatus(422);
@@ -96,8 +93,8 @@ class SearchTest extends ApiTestCase
     public function test_search_not_authenticated(): void
     {
         $response = $this->json(
-            'GET',
-            self::URI
+            method: 'GET',
+            uri: $this->getUriWithParams(),
         );
 
         $response->assertStatus(401);
