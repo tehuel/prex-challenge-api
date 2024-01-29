@@ -11,43 +11,59 @@ class ShowTest extends ApiTestCase
 
     public function test_get_gif_result()
     {
+        $gifId = 'abc123';
         $this->mock(GiphyService::class, fn(MockInterface $mock) =>
             $mock->shouldReceive('get')
                 ->withArgs([
-                    'abc123',
+                    $gifId,
                 ])
                 ->andReturn([])
                 ->once()
         );
 
-        $id = 'abc123';
-        $uri = self::URI . '/' . $id;
-        $headers = $this->getAuthenticatedHeaders();
-        $response = $this->json('GET', $uri, [], $headers);
+        $uriWithGifId = $this::URI . '/' . $gifId;
+        $response = $this->json(
+            method: 'GET',
+            uri: $uriWithGifId,
+            headers: $this->getAuthenticatedHeaders(),
+        );
+
         $response->assertStatus(200);
     }
 
     public function test_get_empty_id()
     {
-        $uri = self::URI . '/ ';
-        $headers = $this->getAuthenticatedHeaders();
-        $response = $this->json('GET', $uri, [], $headers);
+        $uriWithEmptyGifId = $this::URI . '/ /';
+        $response = $this->json(
+            method: 'GET',
+            uri: $uriWithEmptyGifId,
+            headers: $this->getAuthenticatedHeaders(),
+        );
+
         $response->assertStatus(422);
     }
 
     public function test_get_no_id()
     {
-        $uri = self::URI . '/';
-        $headers = $this->getAuthenticatedHeaders();
-        $response = $this->json('GET', $uri, [], $headers);
+        $uriWithNoGifId = $this::URI;
+        $response = $this->json(
+            method: 'GET',
+            uri: $uriWithNoGifId,
+            headers: $this->getAuthenticatedHeaders(),
+        );
+
         $response->assertStatus(404);
     }
 
     public function test_get_not_authenticated(): void
     {
-        $id = 'abc123';
-        $uri = self::URI . '/' . $id;
-        $response = $this->json('GET', $uri);
+        $uriWithGifId = $this::URI . '/abc1234/';
+
+        $response = $this->json(
+            method: 'GET',
+            uri: $uriWithGifId,
+        );
+
         $response->assertStatus(401);
     }
 }
