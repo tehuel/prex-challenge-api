@@ -2,7 +2,7 @@
 
 Prex PHP challenge. Integration with Giphy API.
 
-# Local Development
+## Local Development
 
 Requirements
 
@@ -21,7 +21,7 @@ php artisan migrate
 php artisan serve
 ```
 
-# Testing
+## Testing
 
 To run all tests, execute:
 
@@ -29,7 +29,7 @@ To run all tests, execute:
 ./vendor/bin/phpunit
 ```
 
-# Docker
+## Docker
 
 To start app in docker containers
 
@@ -43,37 +43,37 @@ docker compose run app sh
 php artisan migrate:fresh --seed
 ```
 
-# Postman Collection
+## Postman Collection
 
-# Diagrams
+## Diagrams
 
-## Use Cases Diagram
+### Use Cases Diagram
 
 ![](https://github.com/tehuel/prex-challenge-api/blob/main/.github/prex-use-case.drawio.png?raw=true)
 
 [link](https://github.com/tehuel/prex-challenge-api/blob/main/.github/prex-use-case.drawio.png)
 
-## Sequence Diagrams
+### Sequence Diagrams
 
-### Authenticate
+#### Authenticate
 
 ![](https://github.com/tehuel/prex-challenge-api/blob/main/.github/prex-seq-auth.drawio.png?raw=true)
 
 [link](https://github.com/tehuel/prex-challenge-api/blob/main/.github/prex-seq-auth.drawio.png)
 
-### Search
+#### Search
 
 ![](https://github.com/tehuel/prex-challenge-api/blob/main/.github/prex-seq-search.drawio.png?raw=true)
 
 [link](https://github.com/tehuel/prex-challenge-api/blob/main/.github/prex-seq-search.drawio.png)
 
-### Get Single Gif
+#### Get Single Gif
 
 ![](https://github.com/tehuel/prex-challenge-api/blob/main/.github/prex-seq-get.drawio.png?raw=true)
 
 [link](https://github.com/tehuel/prex-challenge-api/blob/main/.github/prex-seq-get.drawio.png)
 
-### Add GIF to Favorites
+#### Add GIF to Favorites
 
 ![](https://github.com/tehuel/prex-challenge-api/blob/main/.github/prex-seq-fav.drawio.png?raw=true)
 
