@@ -1,0 +1,196 @@
+{
+	"info": {
+		"_postman_id": "7b5ae2a1-e81a-4f04-829f-514edc4e7bfb",
+		"name": "prex-challenge-api",
+		"description": "Postman collection to test prex-challenge-api.\n\nDefines a collection variable \\`{url}\\` with the base API url, predefined as \\`[http://127.0.0.1/api\\`](http://127.0.0.1/api%5C%60).\n\nDefines an env variable \\`{token}\\` to store API token after login using \\`/login\\` request.",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+		"_exporter_id": "2071247"
+	},
+	"item": [
+		{
+			"name": "/login",
+			"event": [
+				{
+					"listen": "prerequest",
+					"script": {
+						"exec": [
+							""
+						],
+						"type": "text/javascript"
+					}
+				},
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"var res = pm.response.json();",
+							"pm.environment.set('token', res.data.token);",
+							""
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"auth": {
+					"type": "noauth"
+				},
+				"method": "POST",
+				"header": [
+					{
+						"key": "Accept",
+						"value": "application/json",
+						"type": "text"
+					}
+				],
+				"url": {
+					"raw": "{{url}}/login?email=test@example.com&password=password",
+					"host": [
+						"{{url}}"
+					],
+					"path": [
+						"login"
+					],
+					"query": [
+						{
+							"key": "email",
+							"value": "test@example.com"
+						},
+						{
+							"key": "password",
+							"value": "password"
+						}
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "/search",
+			"request": {
+				"method": "GET",
+				"header": [
+					{
+						"key": "Accept",
+						"value": "application/json",
+						"type": "text"
+					}
+				],
+				"url": {
+					"raw": "{{url}}/search?query=success",
+					"host": [
+						"{{url}}"
+					],
+					"path": [
+						"search"
+					],
+					"query": [
+						{
+							"key": "query",
+							"value": "success"
+						}
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "/gif",
+			"request": {
+				"method": "GET",
+				"header": [
+					{
+						"key": "Accept",
+						"value": "application/json",
+						"type": "text"
+					}
+				],
+				"url": {
+					"raw": "{{url}}/gif/a0h7sAqON67nO",
+					"host": [
+						"{{url}}"
+					],
+					"path": [
+						"gif",
+						"a0h7sAqON67nO"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "/favorite",
+			"request": {
+				"method": "GET",
+				"header": [
+					{
+						"key": "Accept",
+						"value": "application/json",
+						"type": "text"
+					}
+				],
+				"url": {
+					"raw": "{{url}}/favorite?gif_id=a0h7sAqON67nO&user_id=1&alias=the gif's alias",
+					"host": [
+						"{{url}}"
+					],
+					"path": [
+						"favorite"
+					],
+					"query": [
+						{
+							"key": "gif_id",
+							"value": "a0h7sAqON67nO"
+						},
+						{
+							"key": "user_id",
+							"value": "1"
+						},
+						{
+							"key": "alias",
+							"value": "the gif's alias"
+						}
+					]
+				}
+			},
+			"response": []
+		}
+	],
+	"auth": {
+		"type": "bearer",
+		"bearer": [
+			{
+				"key": "token",
+				"value": "{{token}}",
+				"type": "string"
+			}
+		]
+	},
+	"event": [
+		{
+			"listen": "prerequest",
+			"script": {
+				"type": "text/javascript",
+				"exec": [
+					""
+				]
+			}
+		},
+		{
+			"listen": "test",
+			"script": {
+				"type": "text/javascript",
+				"exec": [
+					""
+				]
+			}
+		}
+	],
+	"variable": [
+		{
+			"key": "url",
+			"value": "http://127.0.0.1:8000/api",
+			"type": "string"
+		}
+	]
+}

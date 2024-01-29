@@ -45,6 +45,8 @@ php artisan migrate:fresh --seed
 
 ## Postman Collection
 
+[link json export](https://github.com/tehuel/prex-challenge-api/blob/main/.github/prex-challenge-api.postman_collection.json)
+
 ## Diagrams
 
 ### Use Cases Diagram
