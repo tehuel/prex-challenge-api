@@ -17,7 +17,7 @@ To start a development server, run:
 
 ```shell
 composer install
-php artisan migrate
+php artisan migrate --seed
 php artisan serve
 ```
 
@@ -40,7 +40,7 @@ docker compose up -d
 # open shell inside app container image
 docker compose run app sh
 # from inside app container image
-php artisan migrate:fresh --seed
+php artisan migrate --seed
 ```
 
 ## Postman Collection
