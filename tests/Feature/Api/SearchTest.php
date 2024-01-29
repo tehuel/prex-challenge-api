@@ -12,7 +12,7 @@ class SearchTest extends ApiTestCase
 
     public function test_search_results(): void
     {
-        $searchQuery = [
+        $searchParams = [
             'query' => 'success',
         ];
 
@@ -28,7 +28,7 @@ class SearchTest extends ApiTestCase
 
         $response = $this->json(
             method: 'GET',
-            uri: $this->getUriWithParams($searchQuery),
+            uri: $this->getUri($searchParams),
             headers: $this->getAuthenticatedHeaders(),
         );
 
@@ -37,14 +37,14 @@ class SearchTest extends ApiTestCase
 
     public function test_search_validate_limit(): void
     {
-        $searchQuery = [
+        $searchParams = [
             'query' => 'success',
             'limit' => '0',
         ];
 
         $response = $this->json(
             method: 'GET',
-            uri: $this->getUriWithParams($searchQuery),
+            uri: $this->getUri($searchParams),
             headers: $this->getAuthenticatedHeaders(),
         );
 
@@ -53,7 +53,7 @@ class SearchTest extends ApiTestCase
 
     public function test_search_use_limit_offset_params(): void
     {
-        $searchQuery = [
+        $searchParams = [
             'query' => 'success',
             'limit' => 5,
             'offset' => 15,
@@ -72,7 +72,7 @@ class SearchTest extends ApiTestCase
 
         $response = $this->json(
             method: 'GET',
-            uri: $this->getUriWithParams($searchQuery),
+            uri: $this->getUri($searchParams),
             headers: $this->getAuthenticatedHeaders(),
         );
 
@@ -83,7 +83,7 @@ class SearchTest extends ApiTestCase
     {
         $response = $this->json(
             method: 'GET',
-            uri: $this->getUriWithParams(),
+            uri: $this->getUri(),
             headers: $this->getAuthenticatedHeaders(),
         );
 
@@ -94,7 +94,7 @@ class SearchTest extends ApiTestCase
     {
         $response = $this->json(
             method: 'GET',
-            uri: $this->getUriWithParams(),
+            uri: $this->getUri(),
         );
 
         $response->assertStatus(401);

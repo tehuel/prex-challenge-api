@@ -14,17 +14,17 @@ class FavoriteTest extends ApiTestCase
     public function test_favorite_use_gif_service(): void
     {
         $user = User::factory()->create();
-        $searchQuery = $this->getFavoriteQueryParams($user);
+        $searchParams = $this->getFavoriteQueryParams($user);
         $this->mock(GiphyService::class, fn(MockInterface $mock) =>
             $mock
                 ->shouldReceive('get')
-                ->withArgs([$searchQuery['gif_id']])
+                ->withArgs([$searchParams['gif_id']])
                 ->once()
         );
 
         $response = $this->json(
             method: 'GET',
-            uri: $this->getUriWithParams($searchQuery),
+            uri: $this->getUri($searchParams),
             headers: $this->getAuthenticatedHeaders($user),
         );
 
@@ -35,17 +35,17 @@ class FavoriteTest extends ApiTestCase
     public function test_favorite_add_to_favorites(): void
     {
         $user = User::factory()->create();
-        $searchQuery = $this->getFavoriteQueryParams($user);
+        $searchParams = $this->getFavoriteQueryParams($user);
         $this->mock(GiphyService::class, fn(MockInterface $mock) =>
         $mock
             ->shouldReceive('get')
-            ->withArgs([$searchQuery['gif_id']])
+            ->withArgs([$searchParams['gif_id']])
             ->once()
         );
 
         $response = $this->json(
             method: 'GET',
-            uri: $this->getUriWithParams($searchQuery),
+            uri: $this->getUri($searchParams),
             headers: $this->getAuthenticatedHeaders($user),
         );
 
@@ -57,7 +57,7 @@ class FavoriteTest extends ApiTestCase
     {
         $response = $this->json(
             method: 'GET',
-            uri: $this->getUriWithParams(),
+            uri: $this->getUri(),
             headers: $this->getAuthenticatedHeaders(),
         );
 
@@ -68,7 +68,7 @@ class FavoriteTest extends ApiTestCase
     {
         $response = $this->json(
             method: 'GET',
-            uri: $this->getUriWithParams(),
+            uri: $this->getUri(),
         );
 
         $response->assertStatus(401);

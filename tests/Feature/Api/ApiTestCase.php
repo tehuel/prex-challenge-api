@@ -46,8 +46,8 @@ abstract class ApiTestCase extends TestCase
         ];
     }
 
-    public function getUriWithParams(array $searchQuery = []): string
+    public function getUri(array $urlSearchParams = []): string
     {
-        return $this::URI . '?' . Arr::query($searchQuery);
+        return $this::URI . '?' . Arr::query($urlSearchParams);
     }
 }
