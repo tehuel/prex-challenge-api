@@ -79,3 +79,9 @@ php artisan migrate:fresh --seed
 
 [link](https://github.com/tehuel/prex-challenge-api/blob/main/.github/prex-seq-fav.drawio.png)
 
+### Entity Relationship Diagram
+
+![](https://github.com/tehuel/prex-challenge-api/blob/main/.github/prex-erd.drawio.png?raw=true)
+
+[link](https://github.com/tehuel/prex-challenge-api/blob/main/.github/prex-erd.drawio.png)
+
