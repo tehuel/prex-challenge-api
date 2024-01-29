@@ -25,11 +25,31 @@ class SearchTest extends ApiTestCase
                 ->once()
         );
 
-        $uri = self::URI . '?' . Arr::query($searchQuery);
-        $headers = $this->getAuthenticatedHeaders();
+        $response = $this->json(
+            'GET',
+            $this->getUriWithParams($searchQuery),
+            [],
+            $this->getAuthenticatedHeaders(),
+        );
 
-        $response = $this->json('GET', $uri, [], $headers);
         $response->assertStatus(200);
+    }
+
+    public function test_search_validate_limit(): void
+    {
+        $searchQuery = [
+            'query' => 'success',
+            'limit' => '0',
+        ];
+
+        $response = $this->json(
+            'GET',
+            $this->getUriWithParams($searchQuery),
+            [],
+            $this->getAuthenticatedHeaders(),
+        );
+
+        $response->assertStatus(422);
     }
 
     public function test_search_use_limit_offset_params(): void
@@ -41,36 +61,45 @@ class SearchTest extends ApiTestCase
         ];
 
         $this->mock(GiphyService::class, fn(MockInterface $mock) =>
-        $mock->shouldReceive('search')
-            ->withArgs([
-                'success',
-                5,
-                15.
-            ])
-            ->andReturn([])
-            ->once()
+            $mock->shouldReceive('search')
+                ->withArgs([
+                    'success',
+                    5,
+                    15.
+                ])
+                ->andReturn([])
+                ->once()
         );
 
-        $uri = self::URI . '?' . Arr::query($searchQuery);
-        $headers = $this->getAuthenticatedHeaders();
+        $response = $this->json(
+            'GET',
+            $this->getUriWithParams($searchQuery),
+            [],
+            $this->getAuthenticatedHeaders(),
+        );
 
-        $response = $this->json('GET', $uri, [], $headers);
         $response->assertStatus(200);
     }
 
-    public function test_search_parameter_validation(): void
+    public function test_search_required_parameter_validation(): void
     {
-        $uri = self::URI;
-        $headers = $this->getAuthenticatedHeaders();
-        $response = $this->json('GET', $uri, [], $headers);
+        $response = $this->json(
+            'GET',
+            $this->getUriWithParams(),
+            [],
+            $this->getAuthenticatedHeaders(),
+        );
 
         $response->assertStatus(422);
     }
 
     public function test_search_not_authenticated(): void
     {
-        $uri = self::URI;
-        $response = $this->json('GET', $uri);
+        $response = $this->json(
+            'GET',
+            self::URI
+        );
+
         $response->assertStatus(401);
     }
 }

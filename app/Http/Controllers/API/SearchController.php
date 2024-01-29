@@ -18,8 +18,8 @@ class SearchController extends Controller
     {
         $request->validate([
             'query' => ['required'],
-            'limit' => ['nullable'],
-            'offset' => ['nullable'],
+            'limit' => ['nullable', 'integer', 'min:1'],
+            'offset' => ['nullable', 'integer', 'min:0'],
         ]);
 
         $params = Arr::whereNotNull([
